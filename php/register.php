@@ -1,21 +1,14 @@
 <?php
 header("Content-Type: application/json");
 
-// MySQL connection
-$conn = new mysqli("localhost", "root", "", "internship_db");
+// 🔹 Include MySQL connection
+require_once "db_mysql.php";
 
-if ($conn->connect_error) {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Database connection failed"
-    ]);
-    exit;
-}
-
-// Get POST data
+// 🔹 Get POST data
 $email = trim($_POST['email'] ?? '');
 $password = trim($_POST['password'] ?? '');
 
+// 🔹 Validation
 if ($email === "" || $password === "") {
     echo json_encode([
         "status" => "error",
@@ -24,7 +17,7 @@ if ($email === "" || $password === "") {
     exit;
 }
 
-// Check if email already exists
+// 🔹 Check if email already exists
 $check = $conn->prepare("SELECT id FROM users WHERE email = ?");
 $check->bind_param("s", $email);
 $check->execute();
@@ -38,10 +31,10 @@ if ($check->num_rows > 0) {
     exit;
 }
 
-// Hash password
+// 🔹 Hash password
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-// Insert user
+// 🔹 Insert new user
 $stmt = $conn->prepare(
     "INSERT INTO users (email, password) VALUES (?, ?)"
 );
@@ -58,6 +51,7 @@ if ($stmt->execute()) {
     ]);
 }
 
+// 🔹 Close connections
 $stmt->close();
 $check->close();
 $conn->close();
