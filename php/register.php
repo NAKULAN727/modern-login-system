@@ -45,9 +45,11 @@ if ($stmt->execute()) {
         "status" => "success"
     ]);
 } else {
+    $errorMsg = "Registration failed: " . $stmt->error;
+    file_put_contents("debug_log.txt", date("Y-m-d H:i:s") . " - Error: $errorMsg\n", FILE_APPEND);
     echo json_encode([
         "status" => "error",
-        "message" => "Registration failed"
+        "message" => $errorMsg
     ]);
 }
 

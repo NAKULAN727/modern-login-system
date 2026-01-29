@@ -1,43 +1,39 @@
 $(document).ready(function () {
+  $("#registerBtn").click(function () {
+    let email = $("#email").val();
+    let password = $("#password").val();
+    let confirmPassword = $("#confirm_password").val();
 
-    $("#registerBtn").click(function () {
+    // 1️⃣ Validation
+    if (email === "" || password === "" || confirmPassword === "") {
+      alert("All fields are required");
+      return;
+    }
 
-        let email = $("#email").val();
-        let password = $("#password").val();
-        let confirmPassword = $("#confirm_password").val();
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
 
-        // 1️⃣ Validation
-        if (email === "" || password === "" || confirmPassword === "") {
-            alert("All fields are required");
-            return;
+    $.ajax({
+      url: "php/register.php",
+      type: "POST",
+      data: {
+        email: email,
+        password: password,
+      },
+      dataType: "json",
+      success: function (res) {
+        if (res.status === "success") {
+          alert("Registration Success");
+          window.location.href = "login.html";
+        } else {
+          alert(res.message || "Registration Failed");
         }
-
-        if (password !== confirmPassword) {
-            alert("Passwords do not match");
-            return;
-        }
-
-        $.ajax({
-            url:"php/register.php",
-            type:"POST",
-            data:{
-                email:email,
-                password:password,
-            },
-            dataType:"json",
-            success:function(res){
-                if(res.status==200)
-                {
-                    alert("Registration Success");
-                    window.location.href="login.html";
-                }
-                else{
-                    alert("Registration Failed");
-                }
-            },
-            error:function(){
-                alert("Server Error");
-            }
-        });     
+      },
+      error: function () {
+        alert("Server Error");
+      },
     });
+  });
 });

@@ -28,13 +28,33 @@ if (!password_verify($password, $user['password'])) {
     exit;
 }
 
-// Redis session
+// Generate Token
 $token = bin2hex(random_bytes(32));
 $user_id = $user['id'];
 
-$redis = new Redis();
-$redis->connect("127.0.0.1", 6379);
-$redis->setEx($token, 1024, $user_id);
+if (class_exists('Redis')) {
+    try {
+        $redis = new Redis();
+        if ($redis->connect("127.0.0.1", 6379)) {
+            $redis->setEx($token, 3600, $user_id);
+        } else {
+            throw new Exception("Redis connection failed");
+        }
+    } catch (Exception $e) {
+        // Fallback to MySQL if Redis fails
+        storeSessionInDb($conn, $user_id, $token);
+    }
+} else {
+    // Fallback to MySQL if Redis extension missing
+    storeSessionInDb($conn, $user_id, $token);
+}
+
+function storeSessionInDb($conn, $user_id, $token) {
+    $stmt = $conn->prepare("INSERT INTO sessions (user_id, token) VALUES (?, ?)");
+    $stmt->bind_param("is", $user_id, $token);
+    $stmt->execute();
+    $stmt->close();
+}
 
 // Success
 echo json_encode([

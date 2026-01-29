@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $("#loginbtn").click(function () {
+  $("#loginBtn").click(function () {
     let email = $("#email").val();
     let password = $("#password").val();
 
@@ -16,11 +16,14 @@ $(document).ready(function () {
       },
       dataType: "json",
       success: function (res) {
-        if (res.status == 200) {
+        if (res.status === "success") {
+          if (res.token) {
+            localStorage.setItem("auth_token", res.token);
+          }
           alert("Login Success");
           window.location.href = "profile.html";
         } else {
-          alert("Login Failed");
+          alert(res.message || "Login Failed");
         }
       },
       error: function () {

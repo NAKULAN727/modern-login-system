@@ -10,11 +10,35 @@ if ($token === "") {
     exit;
 }
 
-// 🔹 Redis connection
-$redis = new Redis();
-$redis->connect("127.0.0.1", 6379);
+// 🔹 Session Verification
+$user_id = null;
 
-$user_id = $redis->get($token);
+// Try Redis first
+if (class_exists('Redis')) {
+    try {
+        $redis = new Redis();
+        if ($redis->connect("127.0.0.1", 6379)) {
+            $user_id = $redis->get($token);
+        }
+    } catch (Exception $e) {
+        // Redis failed, ignore and try DB
+    }
+}
+
+// Fallback to MySQL if Redis didn't yield a user_id
+if (!$user_id) {
+    require_once "db_mysql.php";
+    $stmt = $conn->prepare("SELECT user_id FROM sessions WHERE token = ?");
+    $stmt->bind_param("s", $token);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $user_id = $row['user_id'];
+    }
+    $stmt->close();
+    // Do not close $conn here as we might use it (though this file uses MongoDB later, better safe)
+    // Actually this file uses MongoDB for profile, but we just opened MySQL for session check.
+}
 
 if (!$user_id) {
     echo json_encode(["status" => "error", "message" => "Session expired"]);
