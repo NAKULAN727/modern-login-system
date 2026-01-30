@@ -14,12 +14,10 @@ if ($token === "") {
 $user_id = null;
 
 // Try Redis first
-if (class_exists('Redis')) {
+require_once "db_redis.php";
+if ($redis) {
     try {
-        $redis = new Redis();
-        if ($redis->connect("127.0.0.1", 6379)) {
-            $user_id = $redis->get($token);
-        }
+        $user_id = $redis->get($token);
     } catch (Exception $e) {
         // Redis failed, ignore and try DB
     }
