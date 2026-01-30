@@ -9,51 +9,138 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/login_style.css" />
   </head>
-  <body class="bg-light">
-    <div class="container mt-5">
+  <body class="bg-light d-flex align-items-center min-vh-100">
+    <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-4">
-          <div class="card shadow">
-            <div class="card-header text-center">
-              <h4>Login</h4>
+        <div class="col-md-5 col-lg-4">
+          <div class="card shadow login-card border-0">
+            <!-- Profile Icon -->
+            <div class="profile-icon-container">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-user"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
             </div>
 
-            <div class="card-body">
+            <div class="card-body pt-5 px-4 pb-4">
+              <h4 class="text-center mb-4 mt-3 fw-bold">Login</h4>
+
               <!-- Email -->
-              <div class="mb-3">
-                <label class="form-label">Email</label>
+              <div class="mb-3 input-with-icon">
+                <div class="icon-wrapper">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </div>
                 <input
                   type="email"
                   id="email"
                   class="form-control"
-                  placeholder="Enter email"
+                  placeholder="Email Address"
                 />
               </div>
 
               <!-- Password -->
-              <div class="mb-3">
-                <label class="form-label">Password</label>
+              <div class="mb-3 input-with-icon">
+                <div class="icon-wrapper">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect
+                      x="3"
+                      y="11"
+                      width="18"
+                      height="11"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </div>
                 <input
                   type="password"
                   id="password"
                   class="form-control"
-                  placeholder="Enter password"
+                  placeholder="Password"
                 />
+              </div>
+
+              <!-- Remember Me & Forgot Password -->
+              <div
+                class="d-flex justify-content-between align-items-center mb-4 small"
+              >
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="rememberMe"
+                  />
+                  <label
+                    class="form-check-label text-secondary"
+                    for="rememberMe"
+                  >
+                    Remember me
+                  </label>
+                </div>
+                <a href="#" class="text-decoration-none text-secondary"
+                  >Forgot password?</a
+                >
               </div>
 
               <!-- Login Button -->
               <div class="d-grid">
-                <button type="button" id="loginBtn" class="btn btn-primary">
+                <button
+                  type="button"
+                  id="loginBtn"
+                  class="btn btn-primary btn-lg shadow-sm"
+                >
                   Login
                 </button>
               </div>
             </div>
 
-            <div class="card-footer text-center">
-              <small>
+            <div class="card-footer text-center border-0 bg-transparent pb-4">
+              <small class="text-secondary">
                 Don't have an account?
-                <a href="register.html">Register</a>
+                <a
+                  href="register.html"
+                  class="fw-bold text-primary text-decoration-none"
+                  >Register</a
+                >
               </small>
             </div>
           </div>
@@ -64,7 +151,10 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    <!-- Notifications JS -->
+    <script src="js/notifications.js"></script>
+
     <!-- Login JS -->
-    <script src="js/login.js?v=2"></script>
+    <script src="js/login.js?v=3"></script>
   </body>
 </html>

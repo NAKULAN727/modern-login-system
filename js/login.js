@@ -4,7 +4,7 @@ $(document).ready(function () {
     let password = $("#password").val();
 
     if (email == "" || password == "") {
-      alert("Email and Password are required");
+      Toast.warning("Email and Password are required");
       return;
     }
     $.ajax({
@@ -20,14 +20,16 @@ $(document).ready(function () {
           if (res.token) {
             localStorage.setItem("auth_token", res.token);
           }
-          alert("Login Success");
-          window.location.href = "profile.html";
+          Toast.success("Login Successful");
+          setTimeout(() => {
+            window.location.href = "profile.html";
+          }, 1000); // Slight delay to see toast
         } else {
-          alert(res.message || "Login Failed");
+          Toast.error(res.message || "Login Failed");
         }
       },
       error: function () {
-        alert("Server Error");
+        Toast.error("Server Error");
       },
     });
   });

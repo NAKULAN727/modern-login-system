@@ -36,8 +36,6 @@ if (!$user_id) {
         $user_id = $row['user_id'];
     }
     $stmt->close();
-    // Do not close $conn here as we might use it (though this file uses MongoDB later, better safe)
-    // Actually this file uses MongoDB for profile, but we just opened MySQL for session check.
 }
 
 if (!$user_id) {
@@ -45,6 +43,24 @@ if (!$user_id) {
     exit;
 }
 
+// 🔹 Fetch Email from MySQL (User Identity)
+// We need to reconnect if the connection was not opened or closed, but db_mysql.php was required above if Redis failed.
+// If Redis succeeded, we might not have a MySQL connection open.
+// To be safe, ensure MySQL connection.
+if (!isset($conn)) {
+    require_once "db_mysql.php";
+}
+
+$email = "";
+$stmtk = $conn->prepare("SELECT email FROM users WHERE id = ?");
+$stmtk->bind_param("i", $user_id);
+$stmtk->execute();
+$resk = $stmtk->get_result();
+if ($rowk = $resk->fetch_assoc()) {
+    $email = $rowk['email'];
+}
+$stmtk->close();
+// $conn->close(); // Keep open if needed or close. PHP closes at end anyway.
 
 // 🔹 MongoDB connection
 require_once 'db.php';
@@ -59,15 +75,19 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     // Verify user_id is an integer for MongoDB query
     $profile = $collection->findOne(["user_id" => (int)$user_id]);
 
+    // Prepare data
+    $data = [
+        "name" => $profile['name'] ?? "",
+        "dob" => $profile['dob'] ?? "",
+        "age" => $profile['age'] ?? "",
+        "contact" => $profile['contact'] ?? "",
+        "address" => $profile['address'] ?? "",
+        "email" => $email // Add email from MySQL
+    ];
+
     echo json_encode([
         "status" => "success",
-        "data" => $profile ?? [
-            "name" => "",
-            "dob" => "",
-            "age" => "",
-            "contact" => "",
-            "address" => ""
-        ]
+        "data" => $data
     ]);
 }
 

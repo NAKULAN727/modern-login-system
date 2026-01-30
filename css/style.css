@@ -1,0 +1,363 @@
+/* ---------- VARIABLES ---------- */
+:root {
+  --primary-color: #3b82f6; /* Modern Tech Blue */
+  --primary-hover: #2563eb;
+  --bg-color: #f1f5f9; /* Slate 100 - Soft Neutral */
+  --text-primary: #1e293b; /* Slate 800 */
+  --text-secondary: #64748b; /* Slate 500 */
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+}
+
+/* ---------- GLOBAL ---------- */
+body {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  font-family: "Inter", "Segoe UI", sans-serif;
+  color: var(--text-primary);
+  /* Remove old flex center if we want scrolling for profile, 
+     but Login/Register might rely on it. 
+     Let's allow flex but ensure profile page overrides if needed or handles it. 
+     Profile page has its own centered container. */
+}
+
+/* ---------- SHARED CARD STYLES ---------- */
+.auth-card,
+.profile-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.05); /* Soft, subtle shadow */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Specific Auth Card (Login/Register) adjustments to maintain center alignment logic if they rely on it */
+.auth-card {
+  padding: 40px;
+  width: 100%;
+  max-width: 480px;
+  margin: auto; /* Center if flex container */
+}
+
+/* Profile Card Specifics */
+.profile-card {
+  width: 100%;
+  max-width: 900px;
+  overflow: hidden; /* Ensure border-radius clips content */
+}
+
+.bg-sidebar {
+  background-color: #f8fafc; /* Very light slate */
+}
+
+/* ---------- TYPOGRAPHY ---------- */
+h2,
+h4,
+h5 {
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.text-muted {
+  color: var(--text-secondary) !important;
+}
+
+/* ---------- FORMS ---------- */
+.form-label {
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.form-control {
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  transition: all 0.2s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); /* Blue glow */
+}
+
+.form-control[readonly] {
+  background-color: #f1f5f9;
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+  cursor: default;
+}
+
+textarea.form-control {
+  resize: none;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  padding: 10px 24px;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* Keep btn-success for compatibility if needed, but style it nicely */
+.btn-success {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.hover-danger:hover {
+  background-color: var(--danger-color);
+  color: white;
+  border-color: var(--danger-color);
+}
+
+/* ---------- UTILITIES ---------- */
+.hover-lift {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.border-end-md {
+  border-right: 1px solid var(--border-color);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .border-end-md {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .auth-card,
+  .profile-card {
+    box-shadow: none; /* Simplify on mobile */
+    border: none;
+  }
+}
+
+/* ---------- UTILITIES (NEW) ---------- */
+.bg-gradient-blue {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+  color: white;
+}
+
+/* ---------- PROFILE PAGE ---------- */
+.profile-sidebar {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+  color: white;
+}
+
+.profile-sidebar h5 {
+  color: white !important;
+}
+
+.profile-sidebar .text-muted {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ---------- REGISTER PAGE SPECIFIC ---------- */
+
+/* Gradient Background for Side Panel */
+.welcome-panel {
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    #1e40af 100%
+  ); /* Blue gradient */
+}
+
+/* Decorative Background Shapes */
+.decorative-circle {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: 50%;
+  top: -100px;
+  left: -100px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.welcome-panel::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  bottom: -50px;
+  right: -50px;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Typography Tweaks */
+.display-6 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.opacity-75 {
+  opacity: 0.75;
+}
+
+/* Form Styles */
+.form-label.small {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); /* Soft glow */
+}
+
+/* ---------- TOAST NOTIFICATIONS ---------- */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none; /* Let clicks pass through container area */
+}
+
+.custom-toast {
+  background: white;
+  min-width: 300px;
+  max-width: 400px;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-left: 5px solid transparent;
+  transform: translateX(120%);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  pointer-events: auto; /* Re-enable clicks on toast */
+  opacity: 0;
+  font-family: "Inter", sans-serif;
+}
+
+.custom-toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-message {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.toast-close:hover {
+  color: var(--text-primary);
+}
+
+/* Toast Variants */
+.toast-success {
+  border-left-color: var(--success-color);
+}
+.toast-success .toast-icon svg {
+  color: var(--success-color);
+}
+
+.toast-error {
+  border-left-color: var(--danger-color);
+}
+.toast-error .toast-icon svg {
+  color: var(--danger-color);
+}
+
+.toast-warning {
+  border-left-color: #f59e0b; /* Amber */
+}
+.toast-warning .toast-icon svg {
+  color: #f59e0b;
+}
+
+.toast-info {
+  border-left-color: var(--primary-color);
+}
+.toast-info .toast-icon svg {
+  color: var(--primary-color);
+}
+
+/* Media Query for Mobile Toasts */
+@media (max-width: 576px) {
+  #toast-container {
+    right: 50%;
+    transform: translateX(50%);
+    width: 90%;
+    align-items: center;
+    top: 10px;
+  }
+
+  .custom-toast {
+    min-width: 100%;
+    width: 100%;
+  }
+}

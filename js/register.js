@@ -42,12 +42,12 @@ $(document).ready(function () {
       password === "" ||
       confirmPassword === ""
     ) {
-      alert("All fields are required");
+      Toast.warning("All fields are required");
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      Toast.error("Passwords do not match");
       return;
     }
 
@@ -67,14 +67,16 @@ $(document).ready(function () {
       dataType: "json",
       success: function (res) {
         if (res.status === "success") {
-          alert("Registration Success! Please login.");
-          window.location.href = "login.html";
+          Toast.success("Registration Success! Please login.");
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 1500);
         } else {
-          alert(res.message || "Registration Failed");
+          Toast.error(res.message || "Registration Failed");
         }
       },
       error: function () {
-        alert("Server Error");
+        Toast.error("Server Error");
       },
     });
   });

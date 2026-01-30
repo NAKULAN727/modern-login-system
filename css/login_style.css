@@ -1,0 +1,144 @@
+/* ---------- LOGIN PAGE SPECIFIC ---------- */
+
+.login-card {
+  position: relative;
+  overflow: visible; /* Allow profile icon to overlap */
+  border-radius: 20px;
+  background-color: var(--card-bg);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.08),
+    0 5px 15px rgba(0, 0, 0, 0.05);
+  margin-top: 60px; /* Space for the top icon */
+  border: none;
+}
+
+/* Profile Icon Container */
+.profile-icon-container {
+  width: 90px;
+  height: 90px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+  z-index: 10;
+  border: 4px solid #fff; /* White border to separate from background */
+}
+
+.profile-icon-container svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+}
+
+/* Input Fields with Icons */
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon .icon-wrapper {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  z-index: 5;
+  pointer-events: none; /* Let clicks pass through to input */
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon .form-control {
+  padding-left: 48px; /* Make room for the icon */
+  padding-right: 16px;
+  height: 50px;
+  background-color: #f8fafc; /* Muted background */
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.input-with-icon .form-control::placeholder {
+  color: #94a3b8; /* Lighter placeholder */
+}
+
+.input-with-icon .form-control:focus {
+  background-color: #fff;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.input-with-icon .form-control:hover {
+  background-color: #fff;
+  border-color: #cbd5e1;
+}
+
+/* Checkbox */
+.form-check-input {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border-color: #cbd5e1;
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.form-check-label {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  user-select: none;
+}
+
+/* Links */
+.text-decoration-none {
+  text-decoration: none !important;
+}
+
+.text-decoration-none:hover {
+  color: var(--primary-color) !important;
+  text-decoration: underline !important;
+}
+
+/* Login Button adjustments */
+#loginBtn {
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-hover)
+  );
+  border: none;
+}
+
+#loginBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+#loginBtn:active {
+  transform: translateY(0);
+}
+
+/* Typography tweaks */
+h4 {
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}

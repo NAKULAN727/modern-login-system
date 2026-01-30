@@ -30,25 +30,32 @@ $(document).ready(function () {
     dataType: "json",
     success: function (response) {
       if (response.status === "success" && response.data) {
-        $("#name").val(response.data.name || "");
-        $("#address").val(response.data.address || "");
-        $("#age").val(response.data.age || "");
-        $("#dob").val(response.data.dob || "");
-        $("#contact").val(response.data.contact || "");
+        let d = response.data;
+
+        // Populate Inputs
+        $("#name").val(d.name || "");
+        $("#email").val(d.email || ""); // Set Email
+        $("#address").val(d.address || "");
+        $("#age").val(d.age || "");
+        $("#dob").val(d.dob || "");
+        $("#contact").val(d.contact || "");
+
+        // Update Sidebar/Display
+        updateSidebar(d.name, d.email);
       } else {
-        // If token invalid, maybe redirect?
         if (
           response.message === "Unauthorized" ||
           response.message === "Session expired"
         ) {
           window.location.href = "login.html";
         } else {
-          alert("Unable to load profile: " + response.message);
+          Toast.error("Unable to load profile: " + response.message);
         }
       }
     },
     error: function () {
-      alert("Server error while loading profile");
+      console.error("Server error while loading profile");
+      Toast.error("Error loading profile data");
     },
   });
 
@@ -68,9 +75,14 @@ $(document).ready(function () {
       contact === "" ||
       address === ""
     ) {
-      alert("All fields are required");
+      Toast.warning("All fields are required");
       return;
     }
+
+    // Show loading state
+    let $btn = $(this);
+    let originalText = $btn.text();
+    $btn.prop("disabled", true).text("Saving...");
 
     $.ajax({
       url: "php/profile.php",
@@ -87,14 +99,19 @@ $(document).ready(function () {
       },
       dataType: "json",
       success: function (response) {
+        $btn.prop("disabled", false).text(originalText);
+
         if (response.status === "success") {
-          alert("Profile updated successfully!");
+          // Update Sidebar immediately
+          updateSidebar(name, $("#email").val());
+          Toast.success("Profile updated successfully!");
         } else {
-          alert(response.message || "Update failed");
+          Toast.error(response.message || "Update failed");
         }
       },
       error: function () {
-        alert("Server error while saving profile");
+        $btn.prop("disabled", false).text(originalText);
+        Toast.error("Server error while saving profile");
       },
     });
   });
@@ -104,4 +121,15 @@ $(document).ready(function () {
     localStorage.removeItem("auth_token");
     window.location.href = "login.html";
   });
+
+  // Helper to update Avatar & Sidebar Text
+  function updateSidebar(name, email) {
+    let displayName = name || "User";
+    $("#displayName").text(displayName);
+    $("#displayEmail").text(email || "");
+
+    // Update Avatar src with new name
+    let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=e9ecef&color=495057&size=150&bold=true`;
+    $("#avatarImg").attr("src", avatarUrl);
+  }
 });
