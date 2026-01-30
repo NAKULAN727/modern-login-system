@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 // Redis Configuration
 $redis_host = getenv("REDIS_HOST") ?: "127.0.0.1";
 $redis_port = getenv("REDIS_PORT") ?: 6379;
@@ -20,4 +20,4 @@ if (class_exists('Redis')) {
         $redis = null;
     }
 }
-?>
+?> -->

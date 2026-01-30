@@ -1,8 +1,8 @@
 <?php
-$host = getenv("MYSQL_HOST") ?: "localhost";
-$user = getenv("MYSQL_USER") ?: "root";
-$password = getenv("MYSQL_PASSWORD") ?: "";
-$dbname = getenv("MYSQL_DB") ?: "internship_db";
+$host = "localhost";
+$user = "root";
+$password = "";
+$dbname = "internship_db";
 
 $conn = new mysqli($host, $user, $password, $dbname);
 

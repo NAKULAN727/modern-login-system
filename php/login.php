@@ -32,16 +32,20 @@ if (!password_verify($password, $user['password'])) {
 $token = bin2hex(random_bytes(32));
 $user_id = $user['id'];
 
-require_once "db_redis.php";
-if ($redis) {
+if (class_exists('Redis')) {
     try {
-        $redis->setEx($token, 3600, $user_id);
+        $redis = new Redis();
+        if ($redis->connect("127.0.0.1", 6379)) {
+            $redis->setEx($token, 3600, $user_id);
+        } else {
+            throw new Exception("Redis connection failed");
+        }
     } catch (Exception $e) {
         // Fallback to MySQL if Redis fails
         storeSessionInDb($conn, $user_id, $token);
     }
 } else {
-    // Fallback to MySQL if Redis not available
+    // Fallback to MySQL if Redis extension missing
     storeSessionInDb($conn, $user_id, $token);
 }
 
