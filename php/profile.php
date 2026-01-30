@@ -45,21 +45,28 @@ if (!$user_id) {
     exit;
 }
 
+
 // 🔹 MongoDB connection
 require_once 'db.php';
 $collection = $db->profiles;
 
+// Ensure unique index exists
+$collection->createIndex(['user_id' => 1], ['unique' => true]);
+
 // 🔹 GET profile
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
-    $profile = $collection->findOne(["user_id" => $user_id]);
+    // Verify user_id is an integer for MongoDB query
+    $profile = $collection->findOne(["user_id" => (int)$user_id]);
 
     echo json_encode([
         "status" => "success",
         "data" => $profile ?? [
-            "age" => "",
+            "name" => "",
             "dob" => "",
-            "contact" => ""
+            "age" => "",
+            "contact" => "",
+            "address" => ""
         ]
     ]);
 }
@@ -68,11 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     $collection->updateOne(
-        ["user_id" => $user_id],
+        ["user_id" => (int)$user_id],
         ['$set' => [
-            "age" => $_POST['age'],
-            "dob" => $_POST['dob'],
-            "contact" => $_POST['contact']
+            "name" => $_POST['name'] ?? '',
+            "age" => $_POST['age'] ?? '',
+            "dob" => $_POST['dob'] ?? '',
+            "contact" => $_POST['contact'] ?? '',
+            "address" => $_POST['address'] ?? ''
         ]],
         ["upsert" => true]
     );
